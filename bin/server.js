@@ -18,6 +18,7 @@ import getRoutes from '../src/routes';
 import Default from '../src/components/hello';
 import { port, apiHost, apiPort } from '../config/env';
 
+global.__CLIENT__ = false; // eslint-disable-line
 const targetUrl = `http://${apiHost}:${apiPort}`;
 const pretty = new PrettyError();
 const app = express();
