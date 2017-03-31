@@ -1,0 +1,19 @@
+.form{
+  margin-left: 100px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  height: 60px;
+  width: 600px;
+  margin-top: 50px;
+  align-content: center;
+  padding-left: 30px;
+  padding-top: 20px;
+}
+.inputField{
+  height: 40px;
+  width: 400px;
+}
+.addButton{
+  height: 40px;
+  background-color: #008CBA;
+  margin-left: 5px;
+}

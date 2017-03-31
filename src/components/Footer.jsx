@@ -1,10 +1,9 @@
 import React from 'react'
 import FilterLink from '../containers/FilterLink'
+import { Tabs } from 'react-bootstrap';
 
 const Footer = () => (
   <p>
-    Show:
-    {" "}
     <FilterLink filter="SHOW_ALL">
       All
     </FilterLink>

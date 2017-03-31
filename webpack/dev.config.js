@@ -7,6 +7,12 @@ const assetsPath = path.resolve(__dirname, '../public/assets');
 
 const { webpackHost, webpackPort } = require('../config/env');
 
+const webpackIsomorphicToolsConfig = require('./webpack-isomorphic-tools');
+const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+
+const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfig);
+
+const autoprefixer = require('autoprefixer');
 module.exports = {
   devtool: 'inline-source-map',
   context: path.resolve(__dirname, '..'),
@@ -18,7 +24,7 @@ module.exports = {
   },
   output: {
     path: assetsPath,
-    filename: '[name].js',
+    filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].js',
     publicPath: `http://${webpackHost}:${webpackPort}/assets/`,
   },
@@ -29,7 +35,14 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel',
       },
+      {
+        test: /\.css$/,
+        loader: 'style!css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss',
+      },
     ],
+  },
+  postcss() {
+    return [autoprefixer];
   },
   progress: true,
   resolve: {
@@ -50,5 +63,6 @@ module.exports = {
         NODE_ENV: '"development"',
       },
     }),
+    webpackIsomorphicToolsPlugin.development(),
   ],
 };

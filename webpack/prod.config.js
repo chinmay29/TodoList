@@ -2,6 +2,15 @@
 const path = require('path');
 const webpack = require('webpack');
 const assetsPath = path.resolve(__dirname, '../public/assets');
+const webpackIsomorphicToolsConfig = require('./webpack-isomorphic-tools');
+const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
+
+const webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(webpackIsomorphicToolsConfig);
+
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const autoprefixer = require('autoprefixer');
+
 module.exports = {
   devtool: 'source-map',
   context: path.resolve(__dirname, '..'),
@@ -23,7 +32,17 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel',
       },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+                  'style',
+                  'css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss'
+                ),
+      },
     ],
+  },
+  postcss() {
+   return [autoprefixer];
   },
   progress: true,
   resolve: {
@@ -51,5 +70,6 @@ module.exports = {
         warnings: false,
       },
     }),
+    webpackIsomorphicToolsPlugin,
   ],
 };
