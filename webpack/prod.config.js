@@ -21,7 +21,7 @@ module.exports = {
   },
   output: {
     path: assetsPath,
-    filename: '[name].js',
+    filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].js',
     publicPath: '/assets/',
   },
@@ -32,14 +32,30 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel',
       },
+      // {
+      //   test: /\.css$/,
+      //   loader: ExtractTextPlugin.extract(
+      //             'style',
+      //             'css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss'
+      //           ),
+      // },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract(
                   'style',
                   'css?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]!postcss'
                 ),
-      },
+       },
     ],
+    rules: [
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
+      }
+    ]
   },
   postcss() {
    return [autoprefixer];
@@ -71,5 +87,6 @@ module.exports = {
       },
     }),
     webpackIsomorphicToolsPlugin,
+    new ExtractTextPlugin('[name]-[chunkhash].css', { allChunks: true }),
   ],
 };

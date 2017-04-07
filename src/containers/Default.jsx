@@ -11,7 +11,7 @@ export default class Default extends React.Component {
 return (
       <html lang="en">
         <head>
-          <title>Hello, world!</title>
+          <title></title>
           {/* production */}
           {Object.keys(assets.styles).map((style, key) =>
             <link
